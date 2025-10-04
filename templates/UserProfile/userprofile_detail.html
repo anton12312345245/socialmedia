@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if UserProfile.avatar %}
+    <img src="{{ UserProfile.avatar.url }}">
+    {% endif %}
+    <h5>{{ UserProfile.nickname }}</h5>
+    {% if UserProfile.bio %}
+    <p>{{ UserProfile.bio }}</p>
+    {% else %}
+    <p>Not bio yet</p>
+    {% endif %}
+    <p>{{ UserProfile.birthday }}</p>
+{% endblock %}
