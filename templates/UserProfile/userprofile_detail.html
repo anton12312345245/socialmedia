@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<p><a href="{% url 'ProfileEdit' UserProfile.pk %}">edit profile</a></p>
     {% if UserProfile.avatar %}
     <img src="{{ UserProfile.avatar.url }}">
     {% endif %}
@@ -10,4 +11,5 @@
     <p>Not bio yet</p>
     {% endif %}
     <p>{{ UserProfile.birthday }}</p>
+
 {% endblock %}
