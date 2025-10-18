@@ -8,7 +8,7 @@ class ProfileDetailView(DetailView):
     model = Profile
     template_name = 'UserProfile/userprofile_detail.html'
     context_object_name = 'UserProfile'
-    
+        
 
 class ProfileEditView(UpdateView):
     model = Profile
@@ -18,3 +18,4 @@ class ProfileEditView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('ProfileDetail',kwargs={'pk':self.object.pk})
     
+
