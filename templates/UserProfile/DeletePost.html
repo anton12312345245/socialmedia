@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>delete post</h1>
+<form method="post">
+{% csrf_token %}
+<p>Are you sure to delete this post?</p>
+<button type="submit">delete post</button>
+<a href="{% url 'userprofile:ProfileDetail' pk=1 %}">back</a>
+</form>
+{% endblock %}

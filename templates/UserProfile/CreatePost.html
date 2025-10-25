@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Edit profile</h1>
+<h1>add posts</h1>
 <form method="post" enctype="multipart/form-data">
 {% csrf_token %}
 {{ form.as_p }}
-<button type="submit">edit</button>
-<a href="{% url 'userprofile:ProfileDetail' object.pk %}">back</a>
+<button type="submit">add post</button>
+<a href="{% url 'userprofile:ProfileDetail' pk=1 %}">back</a>
 </form>
 {% endblock %}

@@ -8,11 +8,11 @@
 <body>
     <header>
         <nav>
-            <a href="{% url 'ListPostView' %}">posts</a>
+            <a href="{% url 'posts:ListPostView' %}">posts</a>
             <a href="#">chat</a>
             <a href="#">groups</a>
             <a href="#">friends</a>
-            <a href="{% url 'ProfileDetail' 1 %}">Profile</a>
+            <a href="{% url 'userprofile:ProfileDetail' 1 %}">Profile</a>
         </nav>
     </header>
     <main>
