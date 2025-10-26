@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Search friends</h1>
+{% if profiles %}
+<ul>
+    {% for p in profiles%}
+        <li>
+            {% if p.avatar %}
+            <img src="{{ p.avatar.url }}">
+            {% endif %}
+            {{ p.nickname }}
+            {% if request.user.UserProfile.get in p.followers.all %}
+            <a href="#">unfollow</a>
+            {% else %}
+            <a href="#">follow</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No results</p>
+{% endif %}
+{% endblock %}
+

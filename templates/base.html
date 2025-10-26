@@ -12,7 +12,17 @@
             <a href="#">chat</a>
             <a href="#">groups</a>
             <a href="#">friends</a>
-            <a href="{% url 'userprofile:ProfileDetail' 1 %}">Profile</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'userprofile:ProfileDetail' user.UserProfile.get.pk %}">Profile</a>
+            <form method="post" action="{% url 'userprofile:UserLogout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+            {% else %}
+                <a href="{% url 'userprofile:UserLogin' %}">Login</a>
+                <a href="{% url 'userprofile:UserReg' %}">register</a>
+            {% endif %}
+            <a href="{% url 'userprofile:SearchFriends' %}">search</a>
         </nav>
     </header>
     <main>
