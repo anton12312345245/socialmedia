@@ -2,6 +2,8 @@
 {% block content %}
 <p><a href="{% url 'userprofile:ProfileEdit' UserProfile.pk %}">edit profile</a></p>
 <p><a href="{% url 'posts:CreatePost' %}">add post</a></p>
+    <p>followers:{{ UserProfile.followers.count }}</p>
+    <p>followings:{{ UserProfile.following.count }}</p>
     {% if UserProfile.avatar %}
     <img src="{{ UserProfile.avatar.url }}">
     {% endif %}

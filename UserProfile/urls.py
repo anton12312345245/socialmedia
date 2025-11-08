@@ -10,4 +10,6 @@ urlpatterns = [
     path('logout/',views.UserLogoutView.as_view(),name='UserLogout'),
     path('Registration/',views.UserRegView.as_view(),name='UserReg'),
     path('search/',views.ProfileListView.as_view(),name='SearchFriends'),
+    path('follow/<int:pk>',views.FollowView.as_view(),name='FollowProfile'),
+    path('unfollow/<int:pk>',views.UnfollowView.as_view(),name='UnfollowProfile'),
 ]

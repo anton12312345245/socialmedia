@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Search friends</h1>
+<form method="get">
+{% csrf_token %}
+<input type="text" name="username" placeholder="Search" value="{{ request.GET.username }}">
+<button type="submit">Search</button>
+</form>
 {% if profiles %}
 <ul>
     {% for p in profiles%}
@@ -8,12 +13,14 @@
             {% if p.avatar %}
             <img src="{{ p.avatar.url }}">
             {% endif %}
-            {{ p.nickname }}
-            {% if request.user.UserProfile.get in p.followers.all %}
-            <a href="#">unfollow</a>
-            {% else %}
-            <a href="#">follow</a>
-            {% endif %}
+            <a href="{% url 'userprofile:ProfileDetail' p.pk %}">{{ p.nickname }}</a>
+            <!-- <p>debug:{{request.user.UserProfile.get}}</p> -->
+            <!-- <p>debug:{{p.followers.all}}</p> --> 
+            <!-- {% if request.user.UserProfile.get in p.followers.all %} -->
+            <!-- {% else %} -->
+            <!-- {% endif %} -->
+            <a href="{% url 'userprofile:UnfollowProfile' p.pk %}">unfollow</a>
+            <a href="{% url 'userprofile:FollowProfile' p.pk %}">follow</a>
         </li>
     {% endfor %}
 </ul>

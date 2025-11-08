@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
-from django.views.generic import DetailView,UpdateView,CreateView,ListView
-from .models import Profile
+from django.views.generic import DetailView,UpdateView,CreateView,ListView,View
+from .models import Profile,Follow
 from django.urls import reverse_lazy
 from .forms import ProfileForm,RegForm
 from django.contrib.auth.views import LoginView,LogoutView
-
+from django.db.models import Q
 
 class ProfileDetailView(DetailView):
     model = Profile
@@ -48,5 +48,28 @@ class ProfileListView(ListView):
     model = Profile
     template_name = 'UserProfile/searchfriends.html'
     context_object_name = 'profiles'
+
+    def get_queryset(self):
+        getusername = self.request.GET.get('username')
+        if getusername:
+            return Profile.objects.filter(Q(nickname__icontains=getusername)|Q(user__username__icontains=getusername)).exclude(pk=self.request.user.UserProfile.get().pk)
+        else:
+            return Profile.objects.all()
+
+class FollowView(View):
+    def get(self,request,pk):
+        profiletofollow = Profile.objects.get(pk=pk)
+        currentprofile = request.user.UserProfile.get()
+        if not Follow.objects.filter(follower=currentprofile,following=profiletofollow).exists():
+            Follow.objects.create(follower=currentprofile,following=profiletofollow)
+        return redirect('userprofile:SearchFriends')
+    
+class UnfollowView(View):
+    def get(self,request,pk):
+        profiletounfollow = Profile.objects.get(pk=pk)
+        currentprofile = request.user.UserProfile.get()
+        Follow.objects.filter(follower=currentprofile,following=profiletounfollow).delete()
+        return redirect('userprofile:SearchFriends')
+       
 
     
