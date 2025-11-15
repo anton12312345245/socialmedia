@@ -56,6 +56,18 @@ class ProfileListView(ListView):
         else:
             return Profile.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_profile = self.request.user.UserProfile.get()
+        context['current_profile'] = current_profile
+        profiles = context['profiles']
+        profiles_id = [p.id for p in profiles]
+        followed_profiles = Follow.objects.filter(follower=current_profile,following__id__in=profiles_id).values_list('following__id',flat=True)
+        for profile in profiles:
+            profile.isfollowed = profile.id in followed_profiles
+        return context
+
+
 class FollowView(View):
     def get(self,request,pk):
         profiletofollow = Profile.objects.get(pk=pk)
@@ -63,7 +75,7 @@ class FollowView(View):
         if not Follow.objects.filter(follower=currentprofile,following=profiletofollow).exists():
             Follow.objects.create(follower=currentprofile,following=profiletofollow)
         return redirect('userprofile:SearchFriends')
-    
+
 class UnfollowView(View):
     def get(self,request,pk):
         profiletounfollow = Profile.objects.get(pk=pk)

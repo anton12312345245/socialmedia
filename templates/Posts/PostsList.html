@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Posts</h1>
+{% for post in Posts %}
+{% if post.is_image %}
+<img src="{{ post.mediafile.url }}">
+{% endif %}
+{% if post.is_video %}
+<video autoplay controls width="640" height="360">
+    <source src="{{ post.mediafile.url }}" type="video/mp4">
+</video>
+{% endif %}
+<p>{{ post.content }}</p>
+{% if post.link %}
+<p><a href="{{ post.link }}">клик</a></p>
+{% endif %}
+{% empty %}
+<p>Постiв ще нема</p>
+{% endfor %}
 {% endblock %}
 
 

@@ -9,19 +9,19 @@
 {% if profiles %}
 <ul>
     {% for p in profiles%}
+    {% if p != current_profile %}
         <li>
             {% if p.avatar %}
             <img src="{{ p.avatar.url }}">
             {% endif %}
             <a href="{% url 'userprofile:ProfileDetail' p.pk %}">{{ p.nickname }}</a>
-            <!-- <p>debug:{{request.user.UserProfile.get}}</p> -->
-            <!-- <p>debug:{{p.followers.all}}</p> --> 
-            <!-- {% if request.user.UserProfile.get in p.followers.all %} -->
-            <!-- {% else %} -->
-            <!-- {% endif %} -->
+            {% if p.isfollowed %}
             <a href="{% url 'userprofile:UnfollowProfile' p.pk %}">unfollow</a>
+            {% else %}
             <a href="{% url 'userprofile:FollowProfile' p.pk %}">follow</a>
+            {% endif %}
         </li>
+        {% endif %}
     {% endfor %}
 </ul>
 {% else %}
