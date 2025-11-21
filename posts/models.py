@@ -18,7 +18,7 @@ class Post(models.Model):
         return self.mediatype == 'Video'
     
     def __str__(self):
-        return f'{self.author.username} {self.content[0:50]}'
+        return f'{self.author.username}: {self.content[0:50]}'
     
 
 class Comments(models.Model):
@@ -28,7 +28,7 @@ class Comments(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.author.username} post id {self.post.id} text:{self.comment[0:50]}'
+        return f'{self.author.username} PostID:{self.post.id} Text:{self.comment[0:50]}'
     
 
 class Likes(models.Model):
@@ -37,5 +37,5 @@ class Likes(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.author.username} liked: post id {self.post.id}'
+        return f'{self.author.username} liked: PostID {self.post.id}'
     

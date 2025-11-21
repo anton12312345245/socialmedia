@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Followers {{ profile.nickname }}</h2>
+<ul>
+{% for follow in followers_list %}
+    <li>
+        <a href="{% url 'userprofile:ProfileDetail' follow.follower.pk %}">
+            {{ follow.follower.nickname }} (@{{ follow.follower.user.username }})
+        </a>
+    </li>
+{% empty %}
+    <li>No followers</li>
+{% endfor %}
+</ul>
+<a href="javascript:history.back()">Back</a>
+{% endblock %}

@@ -11,7 +11,7 @@ class Profile(models.Model):
     # userposts = models.ForeignKey(Post,blank=True,null=True,on_delete=models.SET_NULL)
 
     def __str__(self):
-        return f'Hello,{self.nickname}'
+        return f'{self.nickname}'
     
 
 class Follow(models.Model):
@@ -19,5 +19,5 @@ class Follow(models.Model):
     following = models.ForeignKey(Profile,on_delete=models.CASCADE,related_name='followers')
     
     def __str__(self):
-        return f'{self.follower.nickname},follows {self.following.nickname}'
-    
+        return f'{self.follower.nickname} follows {self.following.nickname}'
+     

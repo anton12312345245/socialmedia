@@ -84,4 +84,23 @@ class UnfollowView(View):
         return redirect('userprofile:SearchFriends')
        
 
-    
+class FollowersListView(DetailView):
+    model = Profile
+    template_name = 'UserProfile/followers_list.html'
+    context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['followers_list'] = self.object.followers.all()  # ті, хто підписаний на профіль
+        return context
+
+
+class FollowingListView(DetailView):
+    model = Profile
+    template_name = 'UserProfile/following_list.html'
+    context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['following_list'] = self.object.following.all()  # на кого підписаний профіль
+        return context

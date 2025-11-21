@@ -1,31 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Search friends</h1>
+
 <form method="get">
-{% csrf_token %}
-<input type="text" name="username" placeholder="Search" value="{{ request.GET.username }}">
-<button type="submit">Search</button>
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Search" value="{{ request.GET.username }}">
+    <button type="submit">Search</button>
 </form>
+
 {% if profiles %}
-<ul>
-    {% for p in profiles%}
-    {% if p != current_profile %}
-        <li>
-            {% if p.avatar %}
-            <img src="{{ p.avatar.url }}">
+    <ul>
+        {% for p in profiles%}
+            {% if p != current_profile %}
+                <li>
+                    {% if p.avatar %}
+                        <img src="{{ p.avatar.url }}" style="max-width: 50px;">
+                    {% endif %}
+                        <a href="{% url 'userprofile:ProfileDetail' p.pk %}">{{ p.nickname }}</a>
+                    {% if p.isfollowed %}
+                        <a href="{% url 'userprofile:UnfollowProfile' p.pk %}">Unfollow</a>
+                    {% else %}
+                        <a href="{% url 'userprofile:FollowProfile' p.pk %}">Follow</a>
+                    {% endif %}
+                </li>
             {% endif %}
-            <a href="{% url 'userprofile:ProfileDetail' p.pk %}">{{ p.nickname }}</a>
-            {% if p.isfollowed %}
-            <a href="{% url 'userprofile:UnfollowProfile' p.pk %}">unfollow</a>
-            {% else %}
-            <a href="{% url 'userprofile:FollowProfile' p.pk %}">follow</a>
-            {% endif %}
-        </li>
-        {% endif %}
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
 {% else %}
-<p>No results</p>
+    <p>No results</p>
 {% endif %}
 {% endblock %}
 

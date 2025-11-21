@@ -1,37 +1,55 @@
 {% extends 'base.html' %}
 {% block content %}
-<p><a href="{% url 'userprofile:ProfileEdit' UserProfile.pk %}">edit profile</a></p>
-<p><a href="{% url 'posts:CreatePost' %}">add post</a></p>
-    <p>followers:{{ UserProfile.followers.count }}</p>
-    <p>followings:{{ UserProfile.following.count }}</p>
-    {% if UserProfile.avatar %}
-    <img src="{{ UserProfile.avatar.url }}">
-    {% endif %}
-    <h5>{{ UserProfile.nickname }}</h5>
-    {% if UserProfile.bio %}
+
+{% if user.is_authenticated and UserProfile == user.UserProfile.get %}
+    <p><a href="{% url 'userprofile:ProfileEdit' UserProfile.pk %}">Edit Profile</a></p>
+    <p><a href="{% url 'posts:CreatePost' %}">Add Post</a></p>
+{% endif %}
+
+<p>
+    <a href="{% url 'userprofile:followers_list' UserProfile.pk %}">Підписники: </a>
+    {{ UserProfile.followers.count }}
+</p>
+<p>
+    <a href="{% url 'userprofile:following_list' UserProfile.pk %}">Підписки:</a>
+    {{ UserProfile.following.count }} 
+</p>
+
+{% if user.is_authenticated and UserProfile != user.UserProfile.get %}
+    <p>
+        <a href="#">
+            Write a message
+        </a>
+    </p>
+{% endif %}
+
+{% if UserProfile.avatar %}
+    <img src="{{ UserProfile.avatar.url }}" alt="avatar" width="150">
+{% endif %}
+<h2>{{ UserProfile.nickname }}</h2>
+{% if UserProfile.bio %}
     <p>{{ UserProfile.bio }}</p>
-    {% else %}
+{% else %}
     <p>Not bio yet</p>
-    {% endif %}
-    <p>{{ UserProfile.birthday }}</p>
-    <h2>Посты</h2>
-    {% for post in UserProfile.user.posts.all %}
+{% endif %}
+<p>Birthday: {{ UserProfile.birthday }}</p>
+
+<h3>Posts</h3>
+{% for post in UserProfile.user.posts.all %}
     {% if post.is_image %}
-    <img src="{{ post.mediafile.url }}">
+        <img src="{{ post.mediafile.url }}" alt="post image">
     {% endif %}
     {% if post.is_video %}
-    <video autoplay controls width="640" height="360">
-        <source src="{{ post.mediafile.url }}" type="video/mp4">
-    </video>
+        <video autoplay controls width="640" height="360">
+            <source src="{{ post.mediafile.url }}" type="video/mp4">
+        </video>
     {% endif %}
     <p>{{ post.content }}</p>
     {% if post.link %}
-    <p><a href="{{ post.link }}">клик</a></p>
+        <a href="{{ post.link }}">клик</a>
     {% endif %}
-    <p><a href="{% url 'posts:DeletePost' post.pk %}">delete post</a></p>
-    {% empty %}
-    <p>Постiв ще нема</p>
-    {% endfor %}
-
-
+    <p><a href="{% url 'posts:DeletePost' post.pk %}">Delete Post</a></p>
+{% empty %}
+    <p>There are no available posts</p>
+{% endfor %}
 {% endblock %}
