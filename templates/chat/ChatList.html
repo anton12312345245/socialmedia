@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Chats</h1>
+<ul>
+    {% for chat in chatsinfo %}
+    <li>
+        chat with <a href='#'>{{ chat.otheruser.nickname }}</a>
+        last update {{ chat.chat.last_message }}
+    </li>
+    {% empty %}
+    <li> chat is empty </li>
+    {% endfor %}
+</ul>
+{% endblock %}
