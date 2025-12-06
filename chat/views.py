@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import DetailView,UpdateView,CreateView,ListView,View
 from .models import Chat,Message
 from django.urls import reverse_lazy
-from UserProfile import Profile
+from UserProfile.models import Profile
 
 
 class ChatList(ListView):
@@ -37,3 +37,17 @@ class ChatDetail(DetailView):
             chat = Chat.objects.create()
             chat.participants.add(currentprofile,otherprofile)
         return chat
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.object.participants.exclude(pk=self.request.user.UserProfile.get().pk).first()
+        context['otherUser'] = user
+        return context
+    
+
+    def post(self,request,*args,**kwargs):
+        chat = self.get_object()
+        text = request.POST.get('text') 
+        if text:
+            Message.objects.create(chat=chat,sender=request.user.UserProfile.get(),text=text)
+        return redirect('chat:ChatDetail',ProfileID=self.kwargs['ProfileID'])

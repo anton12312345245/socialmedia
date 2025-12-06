@@ -4,7 +4,7 @@
 <ul>
     {% for chat in chatsinfo %}
     <li>
-        chat with <a href='#'>{{ chat.otheruser.nickname }}</a>
+        chat with <a href="{% url 'chat:ChatDetail' chat.otheruser.pk %}">{{ chat.otheruser.nickname }}</a>
         last update {{ chat.chat.last_message }}
     </li>
     {% empty %}

@@ -11,7 +11,6 @@
             <a href="{% url 'posts:ListPostView' %}">Posts</a>
             <a href="{% url 'chat:ChatList' %}">Chat</a>
             <a href="#">Groups</a>
-            <a href="#">Friends</a>
             <a href="{% url 'userprofile:SearchFriends' %}">Search</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'userprofile:ProfileDetail' user.UserProfile.get.pk %}">Profile</a>

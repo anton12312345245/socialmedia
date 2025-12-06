@@ -17,7 +17,7 @@
 
 {% if user.is_authenticated and UserProfile != user.UserProfile.get %}
     <p>
-        <a href="#">
+        <a href="{% url 'chat:ChatDetail' UserProfile.pk %}">
             Write a message
         </a>
     </p>

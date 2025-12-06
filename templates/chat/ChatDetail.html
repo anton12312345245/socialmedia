@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Chat with {{ otherUser.nickname }}</h1>
+{% for message in chat.messages.all %}
+<p><strong>{{ message.sender.nickname }}: </strong>{{ message.text }}  <small>{{ message.created_at|date:'H:i' }}</small></p>
+{% empty %}
+<p>Тут пусто</p>
+{% endfor %}
+<form method="post">
+{% csrf_token %}
+<textarea name="text" required placeholder="сообщение"></textarea>
+<button type="submit">отправить</button>
+</form>
+<a href="{% url 'chat:ChatList' %}">вернутся назад</a>
+{% endblock %}
