@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chat',
     'friends',
-    'groups',
-    'notifications',
     'posts',
     'SocialMedia',
     'UserProfile'
